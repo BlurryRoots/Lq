@@ -1,0 +1,9 @@
+[submodule "dep/Catch"]
+	path = dep/Catch
+	url = https://github.com/philsquared/Catch.git
+[submodule "deb/StringLibrary"]
+	path = deb/StringLibrary
+	url = https://github.com/BlurryRoots/StringLibrary.git
+[submodule "dep/StringLibrary"]
+	path = dep/StringLibrary
+	url = https://github.com/BlurryRoots/StringLibrary.git
