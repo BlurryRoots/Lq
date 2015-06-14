@@ -103,6 +103,9 @@ executable: lib
 		-o $(BUILD)/lq-cli \
 		$(ERROR_OUTPUT)
 
+run: executable
+	$(BUILD)/./lq-cli
+
 test-lexer: clean dependencies lexer.o token.o keywords.o
 	$(CXX_CMD) -I$(CATCH_INCLUDE) -I$(STRING_INCLUDE) \
 		-c $(TEST)/token.cpp \
