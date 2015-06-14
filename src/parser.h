@@ -46,6 +46,9 @@ int
 parse_tree_element_add_parameter( parse_tree_element_t* someElement,
                                   parse_tree_element_t* someParameter );
 
+void
+parse_tree_element_print (parse_tree_element_t* element);
+
 parse_tree_element_t*
 parser_parse( lexer_t someLexer );
 

@@ -80,7 +80,7 @@ parse_tree_element_add_parameter( parse_tree_element_t* someElement,
     }
     else
     {
-        buffer = realloc( 
+        buffer = realloc(
             someElement->parameters,
             (someElement->parameterCount + 1) * sizeof( parse_tree_element_t * )
         );
@@ -99,6 +99,43 @@ parse_tree_element_add_parameter( parse_tree_element_t* someElement,
     return 1;
 }
 
+void
+parse_tree_element_print (parse_tree_element_t* element) {
+    size_t i;
+
+    switch (element->type) {
+        case EXP_LIST:
+            fwprintf (stdout, L"list(");
+            for (i = 0; i < element->parameterCount; ++i) {
+                parse_tree_element_print (element->parameters[i]);
+                if (i < (element->parameterCount - 1)) {
+                    fwprintf (stdout, L" ");
+                }
+            }
+            fwprintf (stdout, L")");
+            break;
+        case EXP_KEYWORD:
+            fwprintf (stdout, L"keyword(%ls)", element->value.str->data);
+            break;
+        case EXP_QUOTED:
+            fwprintf (stdout, L"quote(");
+            parse_tree_element_print (element->parameters[0]);
+            fwprintf (stdout, L")");
+            break;
+        case EXP_VARIABLE:
+            fwprintf (stdout, L"variable(%ls)", element->value.str->data);
+            break;
+        case EXP_STRING:
+            fwprintf (stdout, L"string(%ls)", element->value.str->data);
+            break;
+        case EXP_NUMBER:
+            fwprintf (stdout, L"number(%f)", element->value.num);
+            break;
+        default:
+            fwprintf (stderr, L"Unkown element type!\n");
+    }
+}
+
 parse_tree_element_t*
 parser_parse( lexer_t someLexer )
 {
@@ -107,7 +144,7 @@ parser_parse( lexer_t someLexer )
     size_t i;
     parser_state state;
     token_t* t;
-    parse_tree_element_t* root;    
+    parse_tree_element_t* root;
     parse_tree_element_t* currentList;
     parse_tree_element_t* buffer;
 
@@ -125,7 +162,7 @@ parser_parse( lexer_t someLexer )
         goto LABEL_return;
     }
     else
-    {        
+    {
         state = P_PROGRAM;
     }
 
@@ -163,12 +200,12 @@ LABEL_program:
                     buffer
                 );
 
-                goto LABEL_continue;                
+                goto LABEL_continue;
             }
     //<Program> -> symbol <Program> .
     //<Program> -> <Bool> <Program> .
     //<Bool> -> true .
-    //<Bool> -> false .  
+    //<Bool> -> false .
             if( t->type == SYMBOL )
             {
 LABEL_symbol:
@@ -195,7 +232,7 @@ LABEL_symbol:
                     currentList = currentList->parent;
                 }
 
-                goto LABEL_continue;                
+                goto LABEL_continue;
             }
 
     //<Program> -> <List> <Program> .
@@ -213,7 +250,7 @@ LABEL_list_begin:
 
                 state = P_LIST;
 
-                goto LABEL_continue;            
+                goto LABEL_continue;
             }
 
     //<Program> -> quote <Quoted> .
@@ -230,7 +267,7 @@ LABEL_list_begin:
 
                 state = P_QUOTED;
 
-                goto LABEL_continue;            
+                goto LABEL_continue;
             }
 
             if( t->type == LIST_END )
@@ -257,7 +294,7 @@ LABEL_list_list_end:
 
                 state = P_PROGRAM;
 
-                goto LABEL_continue; 
+                goto LABEL_continue;
             }
 
             goto LABEL_program;
@@ -270,7 +307,7 @@ LABEL_list_list_end:
             if( t->type == SYMBOL )
             {
                 state = P_PROGRAM;
-                
+
                 goto LABEL_symbol;
             }
     //<Quoted> -> <List> <Program> .
