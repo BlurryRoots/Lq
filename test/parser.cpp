@@ -32,7 +32,7 @@ TEST_CASE( "parser utility functions", "[parser]" )
 
     SECTION( "parse_tree_element_add_parameter" )
     {
-        parse_tree_element_t* element = NULL;            
+        parse_tree_element_t* element = NULL;
         parse_tree_element_t* buffer = NULL;
 
         element = parse_tree_element_new( EXP_LIST );
@@ -109,13 +109,13 @@ TEST_CASE( "parser functions", "[parser]" )
                 LIST_END,
             LIST_END,
 
-            LIST_BEGIN, 
-                SYMBOL, 
+            LIST_BEGIN,
+                SYMBOL,
                 QUOTE, SYMBOL,
                 NUMBER,
                 NUMBER,
             LIST_END
-        }; 
+        };
         size_t i;
         string_t* script;
         lexer_t lexer;
@@ -137,6 +137,7 @@ TEST_CASE( "parser functions", "[parser]" )
                 REQUIRE( lexer.tokenlist.tokens[i].type == tt[i] );
             }
         }
+        string_free( script );
 
         result = parser_parse( lexer );
         REQUIRE( result != NULL );
@@ -148,6 +149,5 @@ TEST_CASE( "parser functions", "[parser]" )
 
         parse_tree_element_free( result );
         lexer_free( & lexer );
-        string_free( script );
     }
 }

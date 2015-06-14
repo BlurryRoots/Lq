@@ -19,6 +19,8 @@ extern "C"
 
 TEST_CASE( "token-list", "[token]" )
 {
+    setlocale( LC_ALL, "" );
+
     const wchar_t* symbol = L"my-symböl";
     const wchar_t* number = L"1337";
     const size_t line = 23, column = 42;
@@ -68,11 +70,11 @@ TEST_CASE( "token-list", "[token]" )
     REQUIRE( list.size == 2 );
 
     REQUIRE(
-        wcsncmp( list.tokens[0].symbol->data, 
+        wcsncmp( list.tokens[0].symbol->data,
                  symbol,
                  list.tokens[0].symbol->length ) == 0 );
     REQUIRE(
-        wcsncmp( list.tokens[1].symbol->data, 
+        wcsncmp( list.tokens[1].symbol->data,
                  number,
                  list.tokens[1].symbol->length ) == 0 );
 
@@ -89,12 +91,14 @@ TEST_CASE( "token-list", "[token]" )
 
 TEST_CASE( "lexer success", "[lexer]" )
 {
-    const wchar_t* str = 
+    setlocale( LC_ALL, "" );
+
+    const wchar_t* str =
         L"(38.1 'ärschle 52)";
     const token_type tt[] =
     {
         LIST_BEGIN, NUMBER, QUOTE, SYMBOL, NUMBER, LIST_END
-    };         
+    };
     string_t* script = string_new();
     lexer_t lexer = lexer_create();
 
