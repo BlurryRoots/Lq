@@ -91,6 +91,18 @@ parser.o:
 lib: clean dependencies keywords.o token.o lexer.o parser.o
 	ar rvs $(BUILD)/lib$(PROJECT_NAME).a $(OBJ)/*.o
 
+executable: lib
+	$(CC_CMD) -I$(STRING_INCLUDE) -Isrc \
+		-c src/main.c \
+		-o $(OBJ)/main.o \
+		$(ERROR_OUTPUT)
+	$(CC) -L$(STRING_LIB) -Lbin \
+		$(OBJ)/main.o \
+		-lstring-library \
+		-llq \
+		-o $(BUILD)/lq-cli \
+		$(ERROR_OUTPUT)
+
 test-lexer: clean dependencies lexer.o token.o keywords.o
 	$(CXX_CMD) -I$(CATCH_INCLUDE) -I$(STRING_INCLUDE) \
 		-c $(TEST)/token.cpp \
