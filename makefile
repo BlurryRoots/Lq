@@ -64,35 +64,17 @@ clean:
 dependencies:
 	$(MAKE) -C$(STRING) static-library
 
-keywords.o:
-	$(CC_CMD) \
-		-c $(SRC)/keywords.c \
-		-o $(OBJ)/keywords.o \
-		$(ERROR_OUTPUT)
-
-token.o:
-	$(CC_CMD) -I$(STRING_INCLUDE) \
-		-c $(SRC)/token.c \
-		-o $(OBJ)/token.o \
-		$(ERROR_OUTPUT)
-
-lexer.o:
-	$(CC_CMD) -I$(STRING_INCLUDE) \
-		-c $(SRC)/lexer.c \
-		-o $(OBJ)/lexer.o \
-		$(ERROR_OUTPUT)
-
-parser.o:
-	$(CC_CMD) -I$(STRING_INCLUDE) \
-		-c $(SRC)/parser.c \
-		-o $(OBJ)/parser.o \
+%.o:
+	$(CC_CMD) -Iinc -I$(STRING_INCLUDE) \
+		-c $(SRC)/$*.c \
+		-o $(OBJ)/$*.o \
 		$(ERROR_OUTPUT)
 
 lib: clean dependencies keywords.o token.o lexer.o parser.o
 	ar rvs $(BUILD)/lib$(PROJECT_NAME).a $(OBJ)/*.o
 
 executable: lib
-	$(CC_CMD) -I$(STRING_INCLUDE) -Isrc \
+	$(CC_CMD) -Iinc -I$(STRING_INCLUDE) -Isrc \
 		-c src/main.c \
 		-o $(OBJ)/main.o \
 		$(ERROR_OUTPUT)
@@ -107,7 +89,7 @@ run: executable
 	$(BUILD)/./lq-cli
 
 test-lexer: clean dependencies lexer.o token.o keywords.o
-	$(CXX_CMD) -I$(CATCH_INCLUDE) -I$(STRING_INCLUDE) \
+	$(CXX_CMD) -I$(CATCH_INCLUDE) -Iinc -I$(STRING_INCLUDE) \
 		-c $(TEST)/token.cpp \
 		-o $(OBJ)/test-token.o \
 		$(ERROR_OUTPUT)
@@ -122,7 +104,7 @@ test-lexer: clean dependencies lexer.o token.o keywords.o
 		&& cd $(BUILD) && ./test-token
 
 test-parser: clean dependencies lib
-	$(CXX_CMD) -I$(CATCH_INCLUDE) -I$(STRING_INCLUDE) \
+	$(CXX_CMD) -I$(CATCH_INCLUDE) -Iinc -I$(STRING_INCLUDE) \
 		-c $(TEST)/parser.cpp \
 		-o $(OBJ)/test-parser.o $(ERROR_OUTPUT)
 	$(CXX) -L$(STRING_LIB) -Lbin \

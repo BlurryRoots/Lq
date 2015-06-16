@@ -1,5 +1,5 @@
 
-#include "lexer.h"
+#include <lexer.h>
 
 #include <wchar.h>
 
@@ -112,7 +112,7 @@ lexer_reset( lexer_t* someLexer )
         return 0;
     }
 
-    string_free( someLexer->errorMessage );    
+    string_free( someLexer->errorMessage );
     someLexer->errorMessage = NULL;
 
     token_list_free( & someLexer->tokenlist );
@@ -186,7 +186,7 @@ lexer_scan( lexer_t* someLexer, const string_t* someScript )
 
                 string_append( buffer, c );
 
-                typeBuffer = 
+                typeBuffer =
                     (is_list_begin( c )
                         ? LIST_BEGIN
                         : LIST_END);
@@ -257,7 +257,7 @@ lexer_scan( lexer_t* someLexer, const string_t* someScript )
             else if( is_whitespace( c ) )
             {
                 someLexer->state = IDLE;
-                finalize = 1;                
+                finalize = 1;
             }
             else if( is_list_begin( c )
                   || is_list_end( c ) )
@@ -276,7 +276,7 @@ lexer_scan( lexer_t* someLexer, const string_t* someScript )
 
                 string_append( buffer, c );
 
-                typeBuffer = 
+                typeBuffer =
                     (is_list_begin( c )
                         ? LIST_BEGIN
                         : LIST_END);
@@ -325,7 +325,7 @@ lexer_scan( lexer_t* someLexer, const string_t* someScript )
             if( is_whitespace( c ) )
             {
                 someLexer->state = IDLE;
-                finalize = 1;                
+                finalize = 1;
             }
             else if( is_comment( c ) )
             {
@@ -357,7 +357,7 @@ lexer_scan( lexer_t* someLexer, const string_t* someScript )
 
                 string_append( buffer, c );
 
-                typeBuffer = 
+                typeBuffer =
                     (is_list_begin( c )
                         ? LIST_BEGIN
                         : LIST_END);
@@ -439,7 +439,7 @@ lexer_scan( lexer_t* someLexer, const string_t* someScript )
             goto LABEL_continue;
         }
 
-LABEL_append_token:    
+LABEL_append_token:
         token_list_append(
             & someLexer->tokenlist,
             buffer,
@@ -509,8 +509,8 @@ lexer_free( lexer_t* someLexer )
         return;
     }
 
-    string_free( someLexer->errorMessage );    
-    token_list_free( & someLexer->tokenlist );    
+    string_free( someLexer->errorMessage );
+    token_list_free( & someLexer->tokenlist );
 }
 
 /**/

@@ -7,8 +7,8 @@
 
 extern "C"
 {
-    #include "../src/token.h"
-    #include "../src/lexer.h"
+    #include "../inc/lexer.h"
+    #include "../inc/parser.h"
 
     #include <string-library.h>
 

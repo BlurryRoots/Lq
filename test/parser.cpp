@@ -6,8 +6,8 @@
 
 extern "C"
 {
-    #include "../src/lexer.h"
-    #include "../src/parser.h"
+    #include "../inc/lexer.h"
+    #include "../inc/parser.h"
 
     #include <string-library.h>
 

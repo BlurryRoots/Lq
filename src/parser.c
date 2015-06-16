@@ -1,7 +1,7 @@
 
-#include "parser.h"
+#include <parser.h>
 
-#include "keywords.h"
+#include <keywords.h>
 
 #include <stdio.h>
 

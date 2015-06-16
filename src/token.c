@@ -1,5 +1,5 @@
 
-#include "token.h"
+#include <token.h>
 
 #include <wchar.h>
 #include <stdlib.h>
@@ -16,7 +16,7 @@ token_free( token_t* someToken )
 
     string_free( someToken->symbol );
     someToken->symbol = NULL;
-    
+
     someToken->line = 0;
     someToken->column = 0;
 }
@@ -44,7 +44,7 @@ token_list_init( token_list_t* someList )
 /**/
 void
 token_list_free( token_list_t* someList )
-{    
+{
     size_t i;
 
     if( ! someList || ! someList->tokens )
@@ -66,7 +66,7 @@ token_list_free( token_list_t* someList )
     Creates and appends a new token to given token list.
 */
 int
-token_list_append( 
+token_list_append(
     token_list_t* someList,
     const string_t* someSymbol,
     token_type someType,
@@ -79,7 +79,7 @@ token_list_append(
 
     if( ! someList->tokens )
     {
-        someList->tokens = calloc( 
+        someList->tokens = calloc(
             1,
             sizeof( token_t )
         );
@@ -137,7 +137,7 @@ token_list_print( const token_list_t* someList )
     size_t i, j;
     for( i = 0; i < someList->size; ++i )
     {
-        wprintf( 
+        wprintf(
             L"i: %i v: %ls\n",
             i,
             someList->tokens[i].symbol->data
