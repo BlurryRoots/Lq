@@ -53,7 +53,7 @@ CC_CMD = $(CC) $(CFLAGS)
 CXX_CMD = $(CXX) $(CXXFLAGS)
 
 .PHONY: all
-all: clean
+all: clean run
 
 clean:
 	rm -rf $(OBJ)
