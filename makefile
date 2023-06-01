@@ -22,10 +22,10 @@
 PROJECT_NAME = lq
 
 #CC = gcc
-CFLAGS = -Wall -std=c11
+CFLAGS = -Wall -std=c11 -g
 
 #CXX = g++
-CXXFLAGS = -Wall -std=c++11
+CXXFLAGS = -Wall -std=c++11 -g
 
 MAKE = make
 
@@ -78,7 +78,7 @@ executable: lib
 		-c src/main.c \
 		-o $(OBJ)/main.o \
 		$(ERROR_OUTPUT)
-	$(CC) -L$(STRING_LIB) -Lbin \
+	$(CC) $(CFLAGS) -L$(STRING_LIB) -Lbin \
 		$(OBJ)/main.o \
 		-lstring-library \
 		-llq \
@@ -88,12 +88,15 @@ executable: lib
 run: executable
 	$(BUILD)/./lq-cli
 
+grind: executable
+	valgrind --leak-check=full --show-leak-kinds=all $(BUILD)/./lq-cli
+
 test-lexer: clean dependencies lexer.o token.o keywords.o
 	$(CXX_CMD) -I$(CATCH_INCLUDE) -Iinc -I$(STRING_INCLUDE) \
 		-c $(TEST)/token.cpp \
 		-o $(OBJ)/test-token.o \
 		$(ERROR_OUTPUT)
-	$(CXX) -L$(STRING_LIB) \
+	$(CXX) $(CXXFLAGS) -L$(STRING_LIB) \
 		$(OBJ)/test-token.o \
 		$(OBJ)/lexer.o \
 		$(OBJ)/token.o \
@@ -107,7 +110,7 @@ test-parser: clean dependencies lib
 	$(CXX_CMD) -I$(CATCH_INCLUDE) -Iinc -I$(STRING_INCLUDE) \
 		-c $(TEST)/parser.cpp \
 		-o $(OBJ)/test-parser.o $(ERROR_OUTPUT)
-	$(CXX) -L$(STRING_LIB) -Lbin \
+	$(CXX) $(CXXFLAGS) -L$(STRING_LIB) -Lbin \
 		$(OBJ)/test-parser.o \
 		-lstring-library \
 		-llq \

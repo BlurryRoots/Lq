@@ -1,8 +1,13 @@
+
+#define token_t pleasedontbreakmystuff_t // macOS library stuff defines token_t
 //
 #define CATCH_CONFIG_MAIN
 #include <catch.hpp>
 
 #include <iostream>
+
+#undef token_t
+
 
 extern "C"
 {
